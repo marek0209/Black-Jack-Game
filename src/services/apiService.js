@@ -1,15 +1,17 @@
 import axios from "axios";
 const apiService = {
-  drawCard: (id) => {
-    try {
-      console.log("Getting cards for id:" + id);
-      let response = axios.get(
-        `https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`
-      );
-      console.log(response.cards);
-      return response;
-    } catch (err) {
-      console.log(err);
+  drawCard: (id, count) => {
+    if (count) {
+      try {
+        console.log("Getting cards for id:" + id);
+        let response = axios.get(
+          `https://deckofcardsapi.com/api/deck/${id}/draw/?count=${count}`
+        );
+        console.log(response.cards);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   getId: async () => {

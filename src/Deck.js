@@ -37,6 +37,14 @@ function Deck() {
     }
   };
 
+  const hitAction = async () => {
+    const { data: card } = await apiService.drawCard(deckId, 2);
+    setUserHand([...userHand, card.cards[0]]);
+    if (dealerScore < 17) {
+      setDealerHand([...dealerHand, card.cards[1]]);
+    }
+  };
+
   useEffect(() => {
     console.log(userHand);
     if (gameInProgress) {
@@ -75,6 +83,7 @@ function Deck() {
         ) : (
           <></>
         )}
+        <button onClick={hitAction}>HIT</button>
       </>
     );
   }
