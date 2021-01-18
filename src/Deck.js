@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import apiService from "./services/apiService";
+import calculatePoints from "./services/calculatePoints";
 
 function Deck() {
   const [deckId, setDeckId] = useState("");
   const [dealerHand, setDealerHand] = useState("");
   const [userHand, setUserHand] = useState("");
   const [gameInProgress, setGameInProgress] = useState(false);
+  const [userScore, setUserScore] = useState(0);
+  const [dealerScore, setDealerScore] = useState(0);
 
   let id;
   const startGame = async () => {
@@ -34,6 +37,14 @@ function Deck() {
     }
   };
 
+  useEffect(() => {
+    console.log(userHand);
+    if (gameInProgress) {
+      setUserScore(calculatePoints.getScore(userHand));
+      setDealerScore(calculatePoints.getScore(dealerHand));
+    }
+  }, [setUserScore, dealerHand, gameInProgress, id, userHand]);
+
   if (gameInProgress === false) {
     return (
       <>
@@ -46,6 +57,8 @@ function Deck() {
       <>
         {deckId ? <h1>Game id: {deckId}</h1> : <></>}
         {dealerHand ? <h1> Dealer cards</h1> : <></>}
+        <h1>Dealer:{dealerScore}</h1>
+
         {dealerHand ? (
           dealerHand.map((card) => {
             return <img key={card.code} src={card.image} alt={card.code} />;
@@ -54,6 +67,7 @@ function Deck() {
           <></>
         )}
         {userHand ? <h1> User cards</h1> : <></>}
+        <h1>User:{userScore}</h1>
         {dealerHand ? (
           userHand.map((card) => {
             return <img key={card.key} src={card.image} alt={card.code} />;
