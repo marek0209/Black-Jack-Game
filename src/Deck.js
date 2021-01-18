@@ -45,6 +45,17 @@ function Deck() {
     }
   };
 
+  const standAction = () => {
+    console.log("Stand");
+    setGameInProgress(false);
+  };
+
+  const doubleAction = () => {
+    console.log("Double");
+    setUserScore(2 * userScore);
+    setGameInProgress(false);
+  };
+
   useEffect(() => {
     console.log(userHand);
     if (gameInProgress) {
@@ -84,6 +95,8 @@ function Deck() {
           <></>
         )}
         <button onClick={hitAction}>HIT</button>
+        <button onClick={standAction}>HIT</button>
+        <button onClick={doubleAction}>HIT</button>
       </>
     );
   }
