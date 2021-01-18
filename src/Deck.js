@@ -43,17 +43,50 @@ function Deck() {
     if (dealerScore < 17) {
       setDealerHand([...dealerHand, card.cards[1]]);
     }
+    checkWhoWin();
   };
 
   const standAction = () => {
     console.log("Stand");
     setGameInProgress(false);
+    checkWhoWin();
   };
 
   const doubleAction = () => {
     console.log("Double");
     setUserScore(2 * userScore);
     setGameInProgress(false);
+    checkWhoWin();
+  };
+
+  const checkWhoWin = () => {
+    if (userScore < 21 && dealerScore < 21) {
+      let user = 21 - userScore;
+      let dealer = 21 - dealerScore;
+      if (user > dealer) {
+        console.log("User lost");
+        return "dealer";
+      } else if (user === dealer) {
+        console.log("Remis");
+        return "remis";
+      } else {
+        console.log("User win!");
+        return "user";
+      }
+    } else {
+      if (userScore > 21) {
+        if (dealerScore > 21) {
+          console.log("remis");
+          return "remis";
+        } else {
+          console.log("User lost");
+          return "dealer";
+        }
+      } else {
+        console.log("User win");
+        return "user";
+      }
+    }
   };
 
   useEffect(() => {
@@ -95,8 +128,8 @@ function Deck() {
           <></>
         )}
         <button onClick={hitAction}>HIT</button>
-        <button onClick={standAction}>HIT</button>
-        <button onClick={doubleAction}>HIT</button>
+        <button onClick={standAction}>STAND</button>
+        <button onClick={doubleAction}>DOUBLE</button>
       </>
     );
   }
