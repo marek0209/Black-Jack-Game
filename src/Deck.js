@@ -96,6 +96,19 @@ function Deck() {
     } else {
       window.alert("The winner is " + winner);
     }
+    startRound();
+  };
+
+  const startRound = () => {
+    setUserHand([]);
+    setDealerHand([]);
+    setUserScore(0);
+    setDealerScore(0);
+    getFirstCards();
+    if (roundCounter <= 5) {
+      setGameInProgress(true);
+      startGame();
+    }
   };
 
   useEffect(() => {
