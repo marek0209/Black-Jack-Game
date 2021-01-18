@@ -9,6 +9,7 @@ function Deck() {
   const [gameInProgress, setGameInProgress] = useState(false);
   const [userScore, setUserScore] = useState(0);
   const [dealerScore, setDealerScore] = useState(0);
+  const [roundCounter, setRoundCounter] = useState(0);
 
   let id;
   const startGame = async () => {
@@ -43,20 +44,20 @@ function Deck() {
     if (dealerScore < 17) {
       setDealerHand([...dealerHand, card.cards[1]]);
     }
-    checkWhoWin();
+    endOfRound(checkWhoWin());
   };
 
   const standAction = () => {
     console.log("Stand");
     setGameInProgress(false);
-    checkWhoWin();
+    endOfRound(checkWhoWin());
   };
 
   const doubleAction = () => {
     console.log("Double");
     setUserScore(2 * userScore);
     setGameInProgress(false);
-    checkWhoWin();
+    endOfRound(checkWhoWin());
   };
 
   const checkWhoWin = () => {
@@ -86,6 +87,14 @@ function Deck() {
         console.log("User win");
         return "user";
       }
+    }
+  };
+  const endOfRound = (winner) => {
+    setRoundCounter(roundCounter + 1);
+    if (winner === "remis") {
+      window.alert("Remis");
+    } else {
+      window.alert("The winner is " + winner);
     }
   };
 
