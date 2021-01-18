@@ -9,9 +9,10 @@ function Deck() {
   const [gameInProgress, setGameInProgress] = useState(false);
   const [userScore, setUserScore] = useState(0);
   const [dealerScore, setDealerScore] = useState(0);
-  const [roundCounter, setRoundCounter] = useState(0);
+  const [roundCounter, setRoundCounter] = useState(1);
   const [moneyState, setMoneyState] = useState(1000);
   const [bet, setBet] = useState(0);
+  const [roundHistory, setRoundHistory] = useState([]);
 
   let id;
   const startGame = async () => {
@@ -47,7 +48,7 @@ function Deck() {
     if (dealerScore < 17) {
       setDealerHand([...dealerHand, card.cards[1]]);
     }
-    endOfRound(checkWhoWin());
+    // if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
   };
 
   const standAction = () => {
@@ -94,6 +95,8 @@ function Deck() {
   };
   const endOfRound = (winner) => {
     setRoundCounter(roundCounter + 1);
+    let history = { winner: winner, round: roundCounter };
+    setRoundHistory([...roundHistory, history]);
     if (winner === "remis") {
       window.alert("Remis");
     } else {
@@ -144,10 +147,13 @@ function Deck() {
   const endOfGame = () => {
     setGameInProgress(false);
     alert("Game is end, you played 5 round");
+    setRoundCounter(1);
+    //place for save money to rank
   };
 
   useEffect(() => {
-    console.log(userHand);
+    console.log("UseEffect");
+    if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
     if (gameInProgress) {
       setUserScore(calculatePoints.getScore(userHand));
       setDealerScore(calculatePoints.getScore(dealerHand));
@@ -164,6 +170,20 @@ function Deck() {
   } else {
     return (
       <>
+        <h1>Round {roundCounter}</h1>
+        <h1>User money: {moneyState}</h1>
+        <h1>Round history</h1>
+        {roundHistory ? (
+          roundHistory.map((history) => {
+            return (
+              <li key={history.round}>
+                round {history.round} win {history.winner}
+              </li>
+            );
+          })
+        ) : (
+          <></>
+        )}
         {deckId ? <h1>Game id: {deckId}</h1> : <></>}
         {dealerHand ? <h1> Dealer cards</h1> : <></>}
         <h1>Dealer:{dealerScore}</h1>
@@ -175,9 +195,10 @@ function Deck() {
         ) : (
           <></>
         )}
+
         {userHand ? <h1> User cards</h1> : <></>}
         <h1>User:{userScore}</h1>
-        {dealerHand ? (
+        {userHand ? (
           userHand.map((card) => {
             return <img key={card.key} src={card.image} alt={card.code} />;
           })

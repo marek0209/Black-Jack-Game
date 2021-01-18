@@ -14,7 +14,6 @@ const calculatePoints = {
             tempScore = 1;
             break;
           default:
-            console.log("Parsuje");
             tempScore = parseInt(card.value);
         }
         score = score + tempScore;
