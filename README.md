@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# The Black Jack Game
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Status
+
+Development
+
+## Run in docker
+
+In main app folder type this command:
+
+### `docker build -t black-jack-game:dev .`
+
+This command building docker container
+
+### `docker run -p 3000:3000 black-jack-game:dev`
+
+This command running previously built container
 
 ## Available Scripts
 
