@@ -10,9 +10,12 @@ function Deck() {
   const [userScore, setUserScore] = useState(0);
   const [dealerScore, setDealerScore] = useState(0);
   const [roundCounter, setRoundCounter] = useState(0);
+  const [moneyState, setMoneyState] = useState(1000);
+  const [bet, setBet] = useState(0);
 
   let id;
   const startGame = async () => {
+    betAction();
     id = await apiService.getId();
     console.log(typeof id);
     setDeckId(id);
@@ -96,6 +99,7 @@ function Deck() {
     } else {
       window.alert("The winner is " + winner);
     }
+    betManagement(winner);
     startRound();
   };
 
@@ -108,6 +112,29 @@ function Deck() {
     if (roundCounter <= 5) {
       setGameInProgress(true);
       startGame();
+    }
+  };
+
+  const betAction = () => {
+    const userBet = (function ask() {
+      var n = prompt("Bet from 1$ to 100$:");
+      return isNaN(n) || +n > 100 || +n < 1 ? ask() : n;
+    })();
+
+    if (moneyState < userBet) {
+      alert(" You dont have enough money! ");
+      betAction();
+    }
+    setBet(userBet);
+  };
+
+  const betManagement = (winner) => {
+    if (winner === "user") {
+      console.log("User dostaje");
+      setMoneyState(moneyState + 1.5 * bet);
+    } else {
+      console.log("User traci");
+      setMoneyState(moneyState - bet);
     }
   };
 
