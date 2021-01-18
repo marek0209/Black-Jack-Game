@@ -100,7 +100,11 @@ function Deck() {
       window.alert("The winner is " + winner);
     }
     betManagement(winner);
-    startRound();
+    if (roundCounter >= 5) {
+      endOfGame();
+    } else {
+      startRound();
+    }
   };
 
   const startRound = () => {
@@ -136,6 +140,10 @@ function Deck() {
       console.log("User traci");
       setMoneyState(moneyState - bet);
     }
+  };
+  const endOfGame = () => {
+    setGameInProgress(false);
+    alert("Game is end, you played 5 round");
   };
 
   useEffect(() => {
