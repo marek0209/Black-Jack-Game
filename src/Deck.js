@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import apiService from "./services/apiService";
 import calculatePoints from "./services/calculatePoints";
 
 function Deck() {
+  var useStateRef = require("react-usestateref");
   const [deckId, setDeckId] = useState("");
   const [dealerHand, setDealerHand] = useState("");
   const [userHand, setUserHand] = useState("");
   const [gameInProgress, setGameInProgress] = useState(false);
-  const [userScore, setUserScore] = useState(0);
-  const [dealerScore, setDealerScore] = useState(0);
+  const [userScore, setUserScore, userScoreRef] = useStateRef(0);
+  const [dealerScore, setDealerScore, dealerScoreRef] = useStateRef(0);
   const [roundCounter, setRoundCounter] = useState(1);
   const [moneyState, setMoneyState] = useState(1000);
   const [bet, setBet] = useState(0);
@@ -37,18 +38,35 @@ function Deck() {
       }
       console.log(userCards.cards);
       console.log(dealerCards.cards);
+      setUserScore(sumFirstTwoCardValue(userCards.cards, userScore));
+      setDealerScore(sumFirstTwoCardValue(dealerCards.cards, dealerScore));
       setUserHand(userCards.cards);
       setDealerHand(dealerCards.cards);
     }
   };
 
+  const sumFirstTwoCardValue = (cards, score) => {
+    let tempScore = 0;
+    cards.forEach((card) => {
+      tempScore += calculatePoints.getScore(card, score);
+    });
+    return tempScore;
+  };
+
   const hitAction = async () => {
     const { data: card } = await apiService.drawCard(deckId, 2);
+    setUserScore(
+      userScore + calculatePoints.getScore(card.cards[0], userScore)
+    );
     setUserHand([...userHand, card.cards[0]]);
     if (dealerScore < 17) {
+      console.log("Dealer bierze");
+      setDealerScore(
+        dealerScore + calculatePoints.getScore(card.cards[1], dealerScore)
+      );
       setDealerHand([...dealerHand, card.cards[1]]);
     }
-    // if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
+    if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
   };
 
   const standAction = () => {
@@ -65,9 +83,11 @@ function Deck() {
   };
 
   const checkWhoWin = () => {
-    if (userScore < 21 && dealerScore < 21) {
-      let user = 21 - userScore;
-      let dealer = 21 - dealerScore;
+    console.log(userScore + " " + userScoreRef.current);
+    console.log(dealerScore + " " + dealerScoreRef.current);
+    if (userScoreRef.current < 21 && dealerScoreRef.current < 21) {
+      let user = 21 - userScoreRef.current;
+      let dealer = 21 - dealerScoreRef.current;
       if (user > dealer) {
         console.log("User lost");
         return "dealer";
@@ -79,8 +99,8 @@ function Deck() {
         return "user";
       }
     } else {
-      if (userScore > 21) {
-        if (dealerScore > 21) {
+      if (userScoreRef.current > 21) {
+        if (dealerScoreRef.current > 21) {
           console.log("remis");
           return "remis";
         } else {
@@ -150,15 +170,6 @@ function Deck() {
     setRoundCounter(1);
     //place for save money to rank
   };
-
-  useEffect(() => {
-    console.log("UseEffect");
-    if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
-    if (gameInProgress) {
-      setUserScore(calculatePoints.getScore(userHand));
-      setDealerScore(calculatePoints.getScore(dealerHand));
-    }
-  }, [setUserScore, dealerHand, gameInProgress, id, userHand]);
 
   if (gameInProgress === false) {
     return (
