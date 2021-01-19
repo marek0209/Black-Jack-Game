@@ -11,7 +11,7 @@ function Deck() {
   const [userScore, setUserScore, userScoreRef] = useStateRef(0);
   const [dealerScore, setDealerScore, dealerScoreRef] = useStateRef(0);
   const [roundCounter, setRoundCounter] = useState(1);
-  const [moneyState, setMoneyState] = useState(1000);
+  const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
   const [bet, setBet] = useState(0);
   const [roundHistory, setRoundHistory] = useState([]);
 
@@ -171,11 +171,27 @@ function Deck() {
       setMoneyState(moneyState - bet);
     }
   };
+  // JSON.stringify(yourArray);
   const endOfGame = () => {
     setGameInProgress(false);
     alert("Game is end, you played 5 round");
     setRoundCounter(1);
-    //place for save money to rank
+
+    //Saving  rank
+    let newRank = moneyStateRef.current;
+    let oldRank = undefined;
+    let tempRank = undefined;
+    if (localStorage.rank === undefined || localStorage.rank.length === 0) {
+      tempRank = [newRank];
+      tempRank = JSON.stringify(tempRank);
+      console.log(tempRank);
+      localStorage.setItem("rank", tempRank);
+    } else {
+      oldRank = JSON.parse(localStorage.rank);
+      oldRank.push(newRank);
+      tempRank = JSON.stringify(oldRank);
+      localStorage.setItem("rank", tempRank);
+    }
   };
 
   if (gameInProgress === false) {
