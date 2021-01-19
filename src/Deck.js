@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import apiService from "./services/apiService";
 import calculatePoints from "./services/calculatePoints";
+import "./custom.css";
 
 function Deck() {
   var useStateRef = require("react-usestateref");
@@ -263,6 +264,7 @@ function Deck() {
     setMoneyState,
     gameInProgress,
   ]);
+
   if (
     localStorage.gameInProgress === false ||
     gameInProgressRef.current === false
@@ -276,36 +278,76 @@ function Deck() {
   } else {
     return (
       <>
-        <h1>Round {roundCounter}</h1>
-        <h1>User money: {moneyState}</h1>
-        <h1>Bet: {bet}</h1>
-        <h1>Round history</h1>
-        {Array.from(roundHistory).map((history) => {
-          return (
-            <li key={history.round}>
-              round {history.round} -- {history.winner}
-            </li>
-          );
-        })}
-
-        {deckId && <h1>Game id: {deckId}</h1>}
-        {dealerHand && <h1> Dealer cards</h1>}
-        <h1>Dealer:{dealerScore}</h1>
-
-        {dealerHand &&
-          dealerHand.map((card) => {
-            return <img key={card.code} src={card.image} alt={card.code} />;
-          })}
-
-        {userHand && <h1> User cards</h1>}
-        <h1>User:{userScore}</h1>
-        {userHand &&
-          userHand.map((card) => {
-            return <img key={card.code} src={card.image} alt={card.code} />;
-          })}
-        <button onClick={hitAction}>HIT</button>
-        <button onClick={standAction}>STAND</button>
-        <button onClick={doubleAction}>DOUBLE</button>
+        <div className="gameDeckContainer">
+          <div className="firstSectionContainer">
+            <div className="moneyContainer">
+              <h1>User money: {moneyState}$</h1>
+            </div>
+            <div className="betContainer">
+              <h1>Bet: {bet}$</h1>
+            </div>
+            <div className="spacer"></div>
+            <div className="gameIdContainer">
+              {deckId && <h1>Game id: {deckId}</h1>}
+            </div>
+          </div>
+          <div className="secondSectionContainer">
+            <div className="roundContainer">
+              <h1>Round {roundCounter}</h1>
+            </div>
+            <div className="dealerScoreContainer">
+              <h1>Dealer:{dealerScore}</h1>
+            </div>
+            <div className="dealerCardsContainer">
+              {dealerHand &&
+                dealerHand.map((card) => {
+                  return (
+                    <img
+                      className="dealerCard"
+                      key={card.code}
+                      src={card.image}
+                      alt={card.code}
+                    />
+                  );
+                })}
+            </div>
+            <div className="userScoreContainer">
+              <h1>User:{userScore}</h1>
+            </div>
+            <div className="userCardsContainer">
+              {userHand &&
+                userHand.map((card) => {
+                  return (
+                    <img
+                      className="userCard"
+                      key={card.code}
+                      src={card.image}
+                      alt={card.code}
+                    />
+                  );
+                })}
+            </div>
+            <div className="buttonsContainer">
+              <button onClick={hitAction}>HIT</button>
+              <button onClick={standAction}>STAND</button>
+              <button onClick={doubleAction}>DOUBLE</button>
+            </div>
+          </div>
+          <div className="thirdSectionContainer">
+            <div className="roundHistoryContainer">
+              <h1>Round history</h1>
+              <ul className="roundHistory_list">
+                {Array.from(roundHistory).map((history) => {
+                  return (
+                    <li key={history.round}>
+                      round {history.round} -- {history.winner}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
       </>
     );
   }
