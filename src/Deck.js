@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import apiService from "./services/apiService";
 import calculatePoints from "./services/calculatePoints";
 
 function Deck() {
   var useStateRef = require("react-usestateref");
-  const [deckId, setDeckId] = useState("");
-  const [dealerHand, setDealerHand] = useState("");
-  const [userHand, setUserHand] = useState("");
-  const [gameInProgress, setGameInProgress] = useState(false);
+  const [deckId, setDeckId, deckIdRef] = useStateRef("");
+  const [dealerHand, setDealerHand, dealerHandRef] = useStateRef("");
+  const [userHand, setUserHand, userHandRef] = useStateRef("");
+  const [gameInProgress, setGameInProgress, gameInProgressRef] = useStateRef(
+    false
+  );
   const [userScore, setUserScore, userScoreRef] = useStateRef(0);
   const [dealerScore, setDealerScore, dealerScoreRef] = useStateRef(0);
-  const [roundCounter, setRoundCounter] = useState(1);
+  const [roundCounter, setRoundCounter, roundCounterRef] = useStateRef(1);
   const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
-  const [bet, setBet] = useState(0);
-  const [roundHistory, setRoundHistory] = useState([]);
+  const [bet, setBet, betRef] = useStateRef(0);
+  const [roundHistory, setRoundHistory, roundHistoryRef] = useStateRef([]);
 
   let id;
   const startGame = async () => {
@@ -42,6 +44,7 @@ function Deck() {
       setDealerScore(sumFirstTwoCardValue(dealerCards.cards, dealerScore));
       setUserHand(userCards.cards);
       setDealerHand(dealerCards.cards);
+      saveGameToLocalStorage();
     }
   };
 
@@ -66,8 +69,9 @@ function Deck() {
         dealerScore + calculatePoints.getScore(card.cards[1], dealerScore)
       );
     }
-
+    saveGameToLocalStorage();
     if (userScoreRef.current > 21 || dealerScoreRef.current > 21) {
+      saveGameToLocalStorage();
       endOfRound(checkWhoWin());
     }
   };
@@ -75,6 +79,7 @@ function Deck() {
   const standAction = () => {
     console.log("Stand");
     setGameInProgress(false);
+    saveGameToLocalStorage();
     endOfRound(checkWhoWin());
   };
 
@@ -82,6 +87,7 @@ function Deck() {
     console.log("Double");
     setUserScore(2 * userScore);
     setGameInProgress(false);
+    saveGameToLocalStorage();
     endOfRound(checkWhoWin());
   };
 
@@ -123,16 +129,23 @@ function Deck() {
   const endOfRound = (winner) => {
     setRoundCounter(roundCounter + 1);
     let history = { winner: winner, round: roundCounter };
-    setRoundHistory([...roundHistory, history]);
+    if (roundHistory) {
+      setRoundHistory([...roundHistory, history]);
+    } else {
+      setRoundHistory([history]);
+    }
+
     if (winner === "remis") {
       window.alert("Remis");
     } else {
       window.alert("The winner is " + winner);
     }
+
     betManagement(winner);
     if (roundCounter >= 5) {
       endOfGame();
     } else {
+      saveGameToLocalStorage();
       startRound();
     }
   };
@@ -144,7 +157,7 @@ function Deck() {
     setDealerScore(0);
     getFirstCards();
     if (roundCounter <= 5) {
-      setGameInProgress(true);
+      setGameInProgress(false);
       startGame();
     }
   };
@@ -173,9 +186,12 @@ function Deck() {
   };
   // JSON.stringify(yourArray);
   const endOfGame = () => {
-    setGameInProgress(false);
+    clearLocalStorage();
     alert("Game is end, you played 5 round");
     setRoundCounter(1);
+    setGameInProgress(false);
+    localStorage.setItem("gameInProgress", false);
+    setRoundHistory([]);
 
     //Saving  rank
     let newRank = moneyStateRef.current;
@@ -194,7 +210,53 @@ function Deck() {
     }
   };
 
-  if (gameInProgress === false) {
+  const clearLocalStorage = () => {
+    localStorage.removeItem("deckId");
+    localStorage.removeItem("dealerHand");
+    localStorage.removeItem("userHand");
+    localStorage.removeItem("dealerScore");
+    localStorage.removeItem("userScore");
+    localStorage.removeItem("roundHistory");
+    localStorage.removeItem("moneyState");
+    localStorage.removeItem("bet");
+  };
+  const saveGameToLocalStorage = () => {
+    localStorage.setItem("deckId", deckIdRef.current);
+    localStorage.setItem("dealerHand", JSON.stringify(dealerHandRef.current));
+    localStorage.setItem("userHand", JSON.stringify(userHandRef.current));
+    localStorage.setItem("dealerScore", dealerScoreRef.current);
+    localStorage.setItem("userScore", userScoreRef.current);
+    localStorage.setItem("gameInProgress", true);
+    localStorage.setItem("roundHistory", JSON.stringify(roundHistory));
+    localStorage.setItem("moneyState", moneyStateRef.current);
+    localStorage.setItem("bet", betRef.current);
+  };
+
+  useEffect(() => {
+    if (!gameInProgress && localStorage.gameInProgress === true) {
+      console.log("Use effect");
+      setGameInProgress(localStorage.gameInProgress);
+      setUserHand(JSON.parse(localStorage.userHand));
+      setUserScore(localStorage.userScore);
+      setDealerHand(JSON.parse(localStorage.dealerHand));
+      setRoundHistory(JSON.parse(localStorage.roundHistory));
+      setDealerScore(localStorage.dealerScore);
+      setBet(localStorage.bet);
+      setMoneyState(localStorage.moneyState);
+      setRoundHistory(JSON.parse(localStorage.roundHistory));
+    }
+  }, [
+    setGameInProgress,
+    setUserHand,
+    setUserScore,
+    setDealerHand,
+    setRoundHistory,
+    setDealerScore,
+    setBet,
+    setMoneyState,
+    gameInProgress,
+  ]);
+  if (gameInProgressRef.current === false) {
     return (
       <>
         Click button to start game:
@@ -207,38 +269,29 @@ function Deck() {
         <h1>Round {roundCounter}</h1>
         <h1>User money: {moneyState}</h1>
         <h1>Round history</h1>
-        {roundHistory ? (
-          roundHistory.map((history) => {
-            return (
-              <li key={history.round}>
-                round {history.round} win {history.winner}
-              </li>
-            );
-          })
-        ) : (
-          <></>
-        )}
-        {deckId ? <h1>Game id: {deckId}</h1> : <></>}
-        {dealerHand ? <h1> Dealer cards</h1> : <></>}
+        {Array.from(roundHistory).map((history) => {
+          return (
+            <li key={history.round}>
+              round {history.round} -- {history.winner}
+            </li>
+          );
+        })}
+
+        {deckId && <h1>Game id: {deckId}</h1>}
+        {dealerHand && <h1> Dealer cards</h1>}
         <h1>Dealer:{dealerScore}</h1>
 
-        {dealerHand ? (
+        {dealerHand &&
           dealerHand.map((card) => {
             return <img key={card.code} src={card.image} alt={card.code} />;
-          })
-        ) : (
-          <></>
-        )}
+          })}
 
-        {userHand ? <h1> User cards</h1> : <></>}
+        {userHand && <h1> User cards</h1>}
         <h1>User:{userScore}</h1>
-        {userHand ? (
+        {userHand &&
           userHand.map((card) => {
-            return <img key={card.key} src={card.image} alt={card.code} />;
-          })
-        ) : (
-          <></>
-        )}
+            return <img key={card.code} src={card.image} alt={card.code} />;
+          })}
         <button onClick={hitAction}>HIT</button>
         <button onClick={standAction}>STAND</button>
         <button onClick={doubleAction}>DOUBLE</button>
