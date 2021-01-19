@@ -59,14 +59,17 @@ function Deck() {
       userScore + calculatePoints.getScore(card.cards[0], userScore)
     );
     setUserHand([...userHand, card.cards[0]]);
-    if (dealerScore < 17) {
+    if (dealerScoreRef.current < 17 && userScoreRef.current < 21) {
       console.log("Dealer bierze");
+      setDealerHand([...dealerHand, card.cards[1]]);
       setDealerScore(
         dealerScore + calculatePoints.getScore(card.cards[1], dealerScore)
       );
-      setDealerHand([...dealerHand, card.cards[1]]);
     }
-    if (userScore > 21 || dealerScore > 21) endOfRound(checkWhoWin());
+
+    if (userScoreRef.current > 21 || dealerScoreRef.current > 21) {
+      endOfRound(checkWhoWin());
+    }
   };
 
   const standAction = () => {
@@ -83,8 +86,12 @@ function Deck() {
   };
 
   const checkWhoWin = () => {
-    console.log(userScore + " " + userScoreRef.current);
-    console.log(dealerScore + " " + dealerScoreRef.current);
+    console.log(
+      "Check win at score: " +
+        userScoreRef.current +
+        " " +
+        dealerScoreRef.current
+    );
     if (userScoreRef.current < 21 && dealerScoreRef.current < 21) {
       let user = 21 - userScoreRef.current;
       let dealer = 21 - dealerScoreRef.current;
