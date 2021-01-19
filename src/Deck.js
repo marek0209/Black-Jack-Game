@@ -190,8 +190,6 @@ function Deck() {
     clearLocalStorage();
     alert("Game is end, you played 5 round");
     setRoundCounter(1);
-    setGameInProgress(false);
-    localStorage.setItem("gameInProgress", false);
     setRoundHistory([]);
 
     //Saving  rank
@@ -221,6 +219,7 @@ function Deck() {
     localStorage.removeItem("moneyState");
     localStorage.removeItem("bet");
     localStorage.removeItem("roundCounter");
+    localStorage.removeItem("gameInProgress");
   };
   const saveGameToLocalStorage = () => {
     localStorage.setItem("deckId", deckIdRef.current);
@@ -239,7 +238,7 @@ function Deck() {
   };
 
   useEffect(() => {
-    if (!gameInProgress && localStorage.gameInProgress === true) {
+    if (!gameInProgress && localStorage.gameInProgress) {
       console.log("Use effect");
       setDeckId(localStorage.deckId);
       setGameInProgress(localStorage.gameInProgress);
@@ -264,7 +263,10 @@ function Deck() {
     setMoneyState,
     gameInProgress,
   ]);
-  if (gameInProgressRef.current === false) {
+  if (
+    localStorage.gameInProgress === false ||
+    gameInProgressRef.current === false
+  ) {
     return (
       <>
         Click button to start game:
@@ -276,6 +278,7 @@ function Deck() {
       <>
         <h1>Round {roundCounter}</h1>
         <h1>User money: {moneyState}</h1>
+        <h1>Bet: {bet}</h1>
         <h1>Round history</h1>
         {Array.from(roundHistory).map((history) => {
           return (
