@@ -151,14 +151,15 @@ function Deck() {
   };
 
   const startRound = () => {
-    setUserHand([]);
-    setDealerHand([]);
-    setUserScore(0);
-    setDealerScore(0);
-    getFirstCards();
-    if (roundCounter <= 5) {
-      setGameInProgress(false);
-      startGame();
+    if (roundCounterRef.current <= 5) {
+      betAction();
+      setGameInProgress(true);
+      setUserHand([]);
+      setDealerHand([]);
+      setUserScore(0);
+      setDealerScore(0);
+      getFirstCards(deckId);
+      saveGameToLocalStorage();
     }
   };
 
@@ -219,6 +220,7 @@ function Deck() {
     localStorage.removeItem("roundHistory");
     localStorage.removeItem("moneyState");
     localStorage.removeItem("bet");
+    localStorage.removeItem("roundCounter");
   };
   const saveGameToLocalStorage = () => {
     localStorage.setItem("deckId", deckIdRef.current);
@@ -227,7 +229,11 @@ function Deck() {
     localStorage.setItem("dealerScore", dealerScoreRef.current);
     localStorage.setItem("userScore", userScoreRef.current);
     localStorage.setItem("gameInProgress", true);
-    localStorage.setItem("roundHistory", JSON.stringify(roundHistory));
+    localStorage.setItem(
+      "roundHistory",
+      JSON.stringify(roundHistoryRef.current)
+    );
+    localStorage.setItem("roundCounter", roundCounterRef.current);
     localStorage.setItem("moneyState", moneyStateRef.current);
     localStorage.setItem("bet", betRef.current);
   };
@@ -235,11 +241,13 @@ function Deck() {
   useEffect(() => {
     if (!gameInProgress && localStorage.gameInProgress === true) {
       console.log("Use effect");
+      setDeckId(localStorage.deckId);
       setGameInProgress(localStorage.gameInProgress);
       setUserHand(JSON.parse(localStorage.userHand));
       setUserScore(localStorage.userScore);
       setDealerHand(JSON.parse(localStorage.dealerHand));
       setRoundHistory(JSON.parse(localStorage.roundHistory));
+      setRoundCounter(parseInt(localStorage.roundCounter));
       setDealerScore(localStorage.dealerScore);
       setBet(localStorage.bet);
       setMoneyState(localStorage.moneyState);
