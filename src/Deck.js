@@ -255,7 +255,9 @@ function Deck() {
     localStorage.setItem("bet", betRef.current);
   };
 
-  const checkButton = () => {};
+  const resetRanking = () => {
+    localStorage.removeItem("rank");
+  };
 
   useEffect(() => {
     if (!gameInProgress && localStorage.gameInProgress) {
@@ -294,19 +296,21 @@ function Deck() {
           <h1>Black jack game</h1>
           <h2>Click button to start game:</h2>
           <button onClick={startGame}>START</button>
-          <button onClick={checkButton}>RESET</button>
-          <ul>
+          <h2>Ranking</h2>
+          <ul className="rank_list">
             {localStorage.rank &&
               Array.from(JSON.parse(localStorage.rank)).map((rankRecord) => {
                 console.log(rankRecord.name);
                 console.log(rankRecord.score);
                 return (
-                  <li key={rankRecord.name}>
+                  <li className="rank_record" key={rankRecord.name}>
                     {rankRecord.name} -- {rankRecord.score}
                   </li>
                 );
               })}
           </ul>
+          <h3>If you want to reset the ranking click button bellow</h3>
+          <button onClick={resetRanking}>RESET</button>
         </div>
       </>
     );
