@@ -22,7 +22,6 @@ function Deck() {
   const startGame = async () => {
     betAction();
     id = await apiService.getId();
-    console.log(typeof id);
     setDeckId(id);
     getFirstCards(id);
     setGameInProgress(true);
@@ -39,8 +38,6 @@ function Deck() {
       if (!userCards) {
         userCards = await apiService.drawCard(id, 2);
       }
-      console.log(userCards.cards);
-      console.log(dealerCards.cards);
       dealerCards.cards[0].image =
         "https://cdn.pixabay.com/photo/2012/05/07/18/52/card-game-48980_960_720.png";
       setUserScore(sumFirstTwoCardValue(userCards.cards, userScore));
@@ -66,7 +63,6 @@ function Deck() {
     );
     setUserHand([...userHand, card.cards[0]]);
     if (dealerScoreRef.current < 17 && userScoreRef.current < 21) {
-      console.log("Dealer bierze");
       setDealerHand([...dealerHand, card.cards[1]]);
       setDealerScore(
         dealerScore + calculatePoints.getScore(card.cards[1], dealerScore)
@@ -80,14 +76,12 @@ function Deck() {
   };
 
   const standAction = () => {
-    console.log("Stand");
     setGameInProgress(false);
     saveGameToLocalStorage();
     endOfRound(checkWhoWin());
   };
 
   const doubleAction = () => {
-    console.log("Double");
     setUserScore(2 * userScore);
     setGameInProgress(false);
     saveGameToLocalStorage();
@@ -95,36 +89,24 @@ function Deck() {
   };
 
   const checkWhoWin = () => {
-    console.log(
-      "Check win at score: " +
-        userScoreRef.current +
-        " " +
-        dealerScoreRef.current
-    );
     if (userScoreRef.current < 21 && dealerScoreRef.current < 21) {
       let user = 21 - userScoreRef.current;
       let dealer = 21 - dealerScoreRef.current;
       if (user > dealer) {
-        console.log("User lost");
         return "dealer";
       } else if (user === dealer) {
-        console.log("Remis");
         return "remis";
       } else {
-        console.log("User win!");
         return "user";
       }
     } else {
       if (userScoreRef.current > 21) {
         if (dealerScoreRef.current > 21) {
-          console.log("remis");
           return "remis";
         } else {
-          console.log("User lost");
           return "dealer";
         }
       } else {
-        console.log("User win");
         return "user";
       }
     }
@@ -181,10 +163,8 @@ function Deck() {
 
   const betManagement = (winner) => {
     if (winner === "user") {
-      console.log("User dostaje");
       setMoneyState(moneyState + 1.5 * bet);
     } else {
-      console.log("User traci");
       setMoneyState(moneyState - bet);
     }
   };
@@ -271,7 +251,6 @@ function Deck() {
       return message;
     };
     if (!gameInProgress && localStorage.gameInProgress) {
-      console.log("Use effect");
       setDeckId(localStorage.deckId);
       setGameInProgress(localStorage.gameInProgress);
       setUserHand(JSON.parse(localStorage.userHand));
@@ -294,6 +273,8 @@ function Deck() {
     setBet,
     setMoneyState,
     gameInProgress,
+    setRoundCounter,
+    setDeckId,
   ]);
 
   if (
@@ -310,8 +291,6 @@ function Deck() {
           <ul className="rank_list">
             {localStorage.rank &&
               Array.from(JSON.parse(localStorage.rank)).map((rankRecord) => {
-                console.log(rankRecord.name);
-                console.log(rankRecord.score);
                 return (
                   <li className="rank_record" key={rankRecord.name}>
                     {rankRecord.name} -- {rankRecord.score}
