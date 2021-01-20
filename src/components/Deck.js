@@ -1,7 +1,5 @@
 import React, { useEffect, useContext } from "react";
 import { AppContext } from "../AppContext";
-import apiService from "../services/apiService";
-import calculatePoints from "../services/calculatePoints";
 import "./Deck.css";
 import Menu from "./Menu";
 

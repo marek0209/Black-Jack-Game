@@ -34,9 +34,42 @@ const UserCards = () => {
     setRoundHistory,
     roundHistoryRef,
   ] = useContext(AppContext);
+
+  const state = {
+    deckId,
+    setDeckId,
+    deckIdRef,
+    dealerHand,
+    setDealerHand,
+    dealerHandRef,
+    userHand,
+    setUserHand,
+    userHandRef,
+    gameInProgress,
+    setGameInProgress,
+    gameInProgressRef,
+    userScore,
+    setUserScore,
+    userScoreRef,
+    dealerScore,
+    setDealerScore,
+    dealerScoreRef,
+    roundCounter,
+    setRoundCounter,
+    roundCounterRef,
+    moneyState,
+    setMoneyState,
+    moneyStateRef,
+    bet,
+    setBet,
+    betRef,
+    roundHistory,
+    setRoundHistory,
+    roundHistoryRef,
+  };
   return (
     <div className="userCardsContainer">
-      {userHand &&
+      {state.userHand &&
         userHand.map((card) => {
           return (
             <img
