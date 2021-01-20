@@ -190,26 +190,41 @@ function Deck() {
   };
   // JSON.stringify(yourArray);
   const endOfGame = () => {
-    clearLocalStorage();
     alert("Game is end, you played 5 round");
-    setRoundCounter(1);
-    setRoundHistory([]);
+    let userName = (function ask() {
+      var a = prompt("Please enter name for rank");
+      return a;
+    })();
 
     //Saving  rank
-    let newRank = moneyStateRef.current;
+    let newRank = { score: moneyStateRef.current, name: userName };
     let oldRank = undefined;
     let tempRank = undefined;
+    function compare(a, b) {
+      if (a.score < b.score) {
+        return 1;
+      }
+      if (a.score > b.score) {
+        return -1;
+      }
+      return 0;
+    }
+
     if (localStorage.rank === undefined || localStorage.rank.length === 0) {
       tempRank = [newRank];
       tempRank = JSON.stringify(tempRank);
-      console.log(tempRank);
       localStorage.setItem("rank", tempRank);
     } else {
       oldRank = JSON.parse(localStorage.rank);
       oldRank.push(newRank);
+      oldRank.sort(compare);
       tempRank = JSON.stringify(oldRank);
       localStorage.setItem("rank", tempRank);
     }
+    clearLocalStorage();
+
+    setRoundCounter(1);
+    setRoundHistory([]);
   };
 
   const clearLocalStorage = () => {
@@ -239,6 +254,8 @@ function Deck() {
     localStorage.setItem("moneyState", moneyStateRef.current);
     localStorage.setItem("bet", betRef.current);
   };
+
+  const checkButton = () => {};
 
   useEffect(() => {
     if (!gameInProgress && localStorage.gameInProgress) {
@@ -273,8 +290,24 @@ function Deck() {
   ) {
     return (
       <>
-        Click button to start game:
-        <button onClick={startGame}>START</button>
+        <div className="menuContainer">
+          <h1>Black jack game</h1>
+          <h2>Click button to start game:</h2>
+          <button onClick={startGame}>START</button>
+          <button onClick={checkButton}>RESET</button>
+          <ul>
+            {localStorage.rank &&
+              Array.from(JSON.parse(localStorage.rank)).map((rankRecord) => {
+                console.log(rankRecord.name);
+                console.log(rankRecord.score);
+                return (
+                  <li key={rankRecord.name}>
+                    {rankRecord.name} -- {rankRecord.score}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </>
     );
   } else {
