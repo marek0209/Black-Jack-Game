@@ -188,7 +188,7 @@ function Deck() {
       setMoneyState(moneyState - bet);
     }
   };
-  // JSON.stringify(yourArray);
+
   const endOfGame = () => {
     alert("Game is end, you played 5 round");
     let userName = (function ask() {
@@ -260,6 +260,16 @@ function Deck() {
   };
 
   useEffect(() => {
+    window.onbeforeunload = function (event) {
+      var message = "Your data will be automatically saved.";
+      if (typeof event == "undefined") {
+        event = window.event;
+      }
+      if (event) {
+        event.returnValue = message;
+      }
+      return message;
+    };
     if (!gameInProgress && localStorage.gameInProgress) {
       console.log("Use effect");
       setDeckId(localStorage.deckId);
@@ -271,7 +281,7 @@ function Deck() {
       setRoundCounter(parseInt(localStorage.roundCounter));
       setDealerScore(localStorage.dealerScore);
       setBet(localStorage.bet);
-      setMoneyState(localStorage.moneyState);
+      setMoneyState(parseInt(localStorage.moneyState));
       setRoundHistory(JSON.parse(localStorage.roundHistory));
     }
   }, [
@@ -335,7 +345,8 @@ function Deck() {
               <h1>Round {roundCounter}</h1>
             </div>
             <div className="dealerScoreContainer">
-              <h1>Dealer:{dealerScore}</h1>
+              {/* Uncoment line bellow if debug app or develop */}
+              {/* <h1>Dealer:{dealerScore}</h1> */}
             </div>
             <div className="dealerCardsContainer">
               {dealerHand &&
