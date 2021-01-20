@@ -1,6 +1,11 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1aff9d92-3d4d-4ca4-80f0-32a182d1864f/deploy-status)](https://app.netlify.com/sites/peaceful-newton-71cb09/deploys)
 # The Black Jack Game
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Demo
+
+Live demo [https://peaceful-newton-71cb09.netlify.app](https://peaceful-newton-71cb09.netlify.app)
 
 ## Status
 
