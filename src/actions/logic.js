@@ -35,14 +35,11 @@ const logic = {
     localStorage.removeItem("rank");
   },
   endOfGame: (state) => {
-    alert("Game is end, you played 5 round");
-    let userName = (function ask() {
-      var a = prompt("Please enter name for rank");
-      return a;
-    })();
+    let nick = state.userNameRef.current;
+    console.log(nick);
 
     //Saving  rank
-    let newRank = { score: state.moneyStateRef.current, name: userName };
+    let newRank = { score: state.moneyStateRef.current, name: nick };
     let oldRank = undefined;
     let tempRank = undefined;
     function compare(a, b) {
@@ -67,12 +64,13 @@ const logic = {
       localStorage.setItem("rank", tempRank);
     }
     logic.clearLocalStorage();
-
+    state.setGameInProgress(false);
     state.setRoundCounter(1);
     state.setRoundHistory([]);
   },
   startRound: (state) => {
-    if (state.roundCounterRef.current <= 5) {
+    if (state.roundCounterRef.current < 5) {
+      state.setRoundCounter(state.roundCounter + 1);
       logic.betAction(state);
       state.setGameInProgress(true);
       state.setUserHand([]);
@@ -85,16 +83,7 @@ const logic = {
   },
 
   betAction: (state) => {
-    const userBet = (function ask() {
-      var n = prompt("Bet from 1$ to 100$:");
-      return isNaN(n) || +n > 100 || +n < 1 ? ask() : n;
-    })();
-
-    if (state.moneyState < userBet) {
-      alert(" You dont have enough money! ");
-      logic.betAction(state);
-    }
-    state.setBet(userBet);
+    state.setShowBetModal(true);
   },
 
   betManagement: (winner, state) => {
@@ -128,7 +117,6 @@ const logic = {
     }
   },
   endOfRound: (winner, state) => {
-    state.setRoundCounter(state.roundCounter + 1);
     let history = { winner: winner, round: state.roundCounter };
 
     if (state.roundHistory.length !== 0) {
@@ -138,15 +126,18 @@ const logic = {
     }
 
     if (winner === "remis") {
-      window.alert("Remis");
+      state.setRoundWinner("remis");
     } else {
-      window.alert("The winner is " + winner);
+      state.setRoundWinner(winner);
     }
 
     logic.betManagement(winner, state);
+
     if (state.roundCounter >= 5) {
-      logic.endOfGame(state);
+      state.setGameIsEnd(true);
+      state.setShowEndOfRoundModal(true);
     } else {
+      state.setShowEndOfRoundModal(true);
       logic.saveGameToLocalStorage(state);
       logic.startRound(state);
     }

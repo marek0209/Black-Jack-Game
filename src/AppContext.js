@@ -16,41 +16,64 @@ export const AppProvider = (props) => {
   const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
   const [bet, setBet, betRef] = useStateRef(0);
   const [roundHistory, setRoundHistory, roundHistoryRef] = useStateRef([]);
+  const [showBetModal, setShowBetModal, showBetModalRef] = useStateRef(false);
+  const [
+    showEndOfRoundModal,
+    setShowEndOfRoundModal,
+    showEndOfRoundModalRef,
+  ] = useStateRef(false);
+  const [gameIsEnd, setGameIsEnd, gameIsEndRef] = useStateRef(false);
+  const [roundWinner, setRoundWinner, roundWinnerRef] = useStateRef(undefined);
+  const [userName, setUserName, userNameRef] = useStateRef(undefined);
+  const gmaeState = {
+    deckId,
+    setDeckId,
+    deckIdRef,
+    dealerHand,
+    setDealerHand,
+    dealerHandRef,
+    userHand,
+    setUserHand,
+    userHandRef,
+    gameInProgress,
+    setGameInProgress,
+    gameInProgressRef,
+    userScore,
+    setUserScore,
+    userScoreRef,
+    dealerScore,
+    setDealerScore,
+    dealerScoreRef,
+    roundCounter,
+    setRoundCounter,
+    roundCounterRef,
+    moneyState,
+    setMoneyState,
+    moneyStateRef,
+    bet,
+    setBet,
+    betRef,
+    roundHistory,
+    setRoundHistory,
+    roundHistoryRef,
+    showBetModal,
+    setShowBetModal,
+    showBetModalRef,
+    showEndOfRoundModal,
+    setShowEndOfRoundModal,
+    showEndOfRoundModalRef,
+    gameIsEnd,
+    setGameIsEnd,
+    gameIsEndRef,
+    roundWinner,
+    setRoundWinner,
+    roundWinnerRef,
+    userName,
+    setUserName,
+    userNameRef,
+  };
   return (
-    <AppContext.Provider
-      value={[
-        deckId,
-        setDeckId,
-        deckIdRef,
-        dealerHand,
-        setDealerHand,
-        dealerHandRef,
-        userHand,
-        setUserHand,
-        userHandRef,
-        gameInProgress,
-        setGameInProgress,
-        gameInProgressRef,
-        userScore,
-        setUserScore,
-        userScoreRef,
-        dealerScore,
-        setDealerScore,
-        dealerScoreRef,
-        roundCounter,
-        setRoundCounter,
-        roundCounterRef,
-        moneyState,
-        setMoneyState,
-        moneyStateRef,
-        bet,
-        setBet,
-        betRef,
-        roundHistory,
-        setRoundHistory,
-        roundHistoryRef,
-      ]}
-    >
+    <AppContext.Provider value={gmaeState}>
       {props.children}
     </AppContext.Provider>
   );

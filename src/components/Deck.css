@@ -4,192 +4,27 @@ body {
   background-color: darkgreen;
 }
 .gameDeckContainer {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
   font-family: "Roboto", sans-serif;
 }
 
-.firstSectionContainer {
-  height: 100%;
-  width: 33%;
-  display: flex;
-  flex-direction: column;
+.action-button {
+  margin-right: 1rem;
 }
-
-.secondSectionContainer {
-  width: 33%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.thirdSectionContainer {
-  height: 100%;
-  width: 33%;
-  display: flex;
-  flex-direction: column;
-}
-
-.moneyContainer {
-  height: 20%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.moneyContainer h1 {
+.custom-list-item {
   text-align: center;
-}
-.betContainer {
-  height: 20%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.betContainer h1 {
-  text-align: center;
+  background-color: darkgreen;
+  border: none;
 }
 
-.spacer {
-  height: 40%;
-  width: 100%;
-}
-.gameIdContainer {
-  height: 20%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  bottom: 0;
-  padding-bottom: 0;
-}
-.gameIdContainer h1 {
-  text-align: center;
-}
-
-.roundContainer {
-  height: 10%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.dealerScoreContainer {
-  height: 5%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
-.dealerScoreContainer h1 {
-  font-size: 1.5rem;
-  text-align: center;
-}
-.dealerCardsContainer {
-  height: 25%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 5%;
-}
-
-img.dealerCard {
-  max-height: 90%;
-  width: aut;
-}
-
-.userScoreContainer {
-  height: 5%;
-  width: 100%;
-}
-.userScoreContainer h1 {
-  font-size: 1.5rem;
-  text-align: center;
-}
-.userCardsContainer {
-  height: 25%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 5%;
-}
-img.userCard {
-  max-height: 90%;
-  width: aut;
-}
-.buttonsContainer {
-  bottom: 0;
-  height: 10%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.roundHistoryContainer {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.roundHistoryContainer h1 {
-  text-align: center;
-  align-self: center;
-}
-
-.roundHistory_list {
+.list-group {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-.roundHistory_list li {
-  padding: 1rem 0;
 }
 
-.menuContainer {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Roboto", sans-serif;
-}
-ul.rank_list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.menuContainer h2 {
-  text-align: center;
-  align-self: center;
-}
-.rank_record {
-  text-align: center;
+img.gameCard {
+  max-height: 90%;
+  width: auto;
 }
 
-button {
-  padding: 0.5rem;
-  margin: 1rem;
-  background-color: #7f8fa6;
-}
-button :hover {
-  background-color: #718093;
+.custom-bet-modal {
+  display: block;
 }
