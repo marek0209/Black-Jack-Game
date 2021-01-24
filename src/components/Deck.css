@@ -24,3 +24,7 @@ img.gameCard {
   max-height: 90%;
   width: auto;
 }
+
+.custom-bet-modal {
+  display: block;
+}

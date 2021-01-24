@@ -85,16 +85,7 @@ const logic = {
   },
 
   betAction: (state) => {
-    const userBet = (function ask() {
-      var n = prompt("Bet from 1$ to 100$:");
-      return isNaN(n) || +n > 100 || +n < 1 ? ask() : n;
-    })();
-
-    if (state.moneyState < userBet) {
-      alert(" You dont have enough money! ");
-      logic.betAction(state);
-    }
-    state.setBet(userBet);
+    state.setShowModal(true);
   },
 
   betManagement: (winner, state) => {

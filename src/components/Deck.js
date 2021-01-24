@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { AppContext } from "../AppContext";
 import "./Deck.css";
 import Menu from "./Menu";
-
 import cardActions from "../actions/cardsActions";
 import DealerCards from "./DealerCards";
 import UserCards from "./UserCards";
 import RoundHistory from "./RoundHistory";
+import Modal from "./Modal";
 function Deck() {
   const gameState = useContext(AppContext);
 
@@ -44,6 +44,9 @@ function Deck() {
   } else {
     return (
       <>
+        {/* {gameState.showModal === true ? <Modal /> : <></>} */}
+        <Modal />
+
         <div className=" container-fluid vh-100 d-flex flex-row gameDeckContainer">
           <div className="w-25 h-100 flex-column">
             <div className="w-100 h-25 d-flex flex-column align-items-center pt-4">

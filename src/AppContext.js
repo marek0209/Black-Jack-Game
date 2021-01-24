@@ -16,6 +16,7 @@ export const AppProvider = (props) => {
   const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
   const [bet, setBet, betRef] = useStateRef(0);
   const [roundHistory, setRoundHistory, roundHistoryRef] = useStateRef([]);
+  const [showModal, setShowModal, showModalRef] = useStateRef(false);
   const gmaeState = {
     deckId,
     setDeckId,
@@ -47,6 +48,9 @@ export const AppProvider = (props) => {
     roundHistory,
     setRoundHistory,
     roundHistoryRef,
+    showModal,
+    setShowModal,
+    showModalRef,
   };
   return (
     <AppContext.Provider value={gmaeState}>

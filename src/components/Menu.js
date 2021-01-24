@@ -3,6 +3,7 @@ import { AppContext } from "../AppContext";
 import logic from "../actions/logic";
 import cardActions from "../actions/cardsActions";
 import apiService from "../services/apiService";
+import Modal from "./Modal";
 
 const Menu = () => {
   const gameState = useContext(AppContext);
