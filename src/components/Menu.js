@@ -5,79 +5,15 @@ import cardActions from "../actions/cardsActions";
 import apiService from "../services/apiService";
 
 const Menu = () => {
-  const [
-    deckId,
-    setDeckId,
-    deckIdRef,
-    dealerHand,
-    setDealerHand,
-    dealerHandRef,
-    userHand,
-    setUserHand,
-    userHandRef,
-    gameInProgress,
-    setGameInProgress,
-    gameInProgressRef,
-    userScore,
-    setUserScore,
-    userScoreRef,
-    dealerScore,
-    setDealerScore,
-    dealerScoreRef,
-    roundCounter,
-    setRoundCounter,
-    roundCounterRef,
-    moneyState,
-    setMoneyState,
-    moneyStateRef,
-    bet,
-    setBet,
-    betRef,
-    roundHistory,
-    setRoundHistory,
-    roundHistoryRef,
-  ] = useContext(AppContext);
-
-  const state = {
-    deckId,
-    setDeckId,
-    deckIdRef,
-    dealerHand,
-    setDealerHand,
-    dealerHandRef,
-    userHand,
-    setUserHand,
-    userHandRef,
-    gameInProgress,
-    setGameInProgress,
-    gameInProgressRef,
-    userScore,
-    setUserScore,
-    userScoreRef,
-    dealerScore,
-    setDealerScore,
-    dealerScoreRef,
-    roundCounter,
-    setRoundCounter,
-    roundCounterRef,
-    moneyState,
-    setMoneyState,
-    moneyStateRef,
-    bet,
-    setBet,
-    betRef,
-    roundHistory,
-    setRoundHistory,
-    roundHistoryRef,
-  };
+  const gameState = useContext(AppContext);
 
   const startGame = async () => {
     let id;
-    logic.betAction(state);
+    logic.betAction(gameState);
     id = await apiService.getId();
-    setDeckId(id);
-    cardActions.getFirstCards(id, state);
-    setGameInProgress(true);
+    gameState.setDeckId(id);
+    cardActions.getFirstCards(id, gameState);
+    gameState.setGameInProgress(true);
   };
 
   return (

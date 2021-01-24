@@ -16,41 +16,40 @@ export const AppProvider = (props) => {
   const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
   const [bet, setBet, betRef] = useStateRef(0);
   const [roundHistory, setRoundHistory, roundHistoryRef] = useStateRef([]);
+  const gmaeState = {
+    deckId,
+    setDeckId,
+    deckIdRef,
+    dealerHand,
+    setDealerHand,
+    dealerHandRef,
+    userHand,
+    setUserHand,
+    userHandRef,
+    gameInProgress,
+    setGameInProgress,
+    gameInProgressRef,
+    userScore,
+    setUserScore,
+    userScoreRef,
+    dealerScore,
+    setDealerScore,
+    dealerScoreRef,
+    roundCounter,
+    setRoundCounter,
+    roundCounterRef,
+    moneyState,
+    setMoneyState,
+    moneyStateRef,
+    bet,
+    setBet,
+    betRef,
+    roundHistory,
+    setRoundHistory,
+    roundHistoryRef,
+  };
   return (
-    <AppContext.Provider
-      value={[
-        deckId,
-        setDeckId,
-        deckIdRef,
-        dealerHand,
-        setDealerHand,
-        dealerHandRef,
-        userHand,
-        setUserHand,
-        userHandRef,
-        gameInProgress,
-        setGameInProgress,
-        gameInProgressRef,
-        userScore,
-        setUserScore,
-        userScoreRef,
-        dealerScore,
-        setDealerScore,
-        dealerScoreRef,
-        roundCounter,
-        setRoundCounter,
-        roundCounterRef,
-        moneyState,
-        setMoneyState,
-        moneyStateRef,
-        bet,
-        setBet,
-        betRef,
-        roundHistory,
-        setRoundHistory,
-        roundHistoryRef,
-      ]}
-    >
+    <AppContext.Provider value={gmaeState}>
       {props.children}
     </AppContext.Provider>
   );

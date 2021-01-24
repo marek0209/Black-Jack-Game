@@ -8,74 +8,11 @@ import DealerCards from "./DealerCards";
 import UserCards from "./UserCards";
 import RoundHistory from "./RoundHistory";
 function Deck() {
-  const [
-    deckId,
-    setDeckId,
-    deckIdRef,
-    dealerHand,
-    setDealerHand,
-    dealerHandRef,
-    userHand,
-    setUserHand,
-    userHandRef,
-    gameInProgress,
-    setGameInProgress,
-    gameInProgressRef,
-    userScore,
-    setUserScore,
-    userScoreRef,
-    dealerScore,
-    setDealerScore,
-    dealerScoreRef,
-    roundCounter,
-    setRoundCounter,
-    roundCounterRef,
-    moneyState,
-    setMoneyState,
-    moneyStateRef,
-    bet,
-    setBet,
-    betRef,
-    roundHistory,
-    setRoundHistory,
-    roundHistoryRef,
-  ] = useContext(AppContext);
-  const state = {
-    deckId,
-    setDeckId,
-    deckIdRef,
-    dealerHand,
-    setDealerHand,
-    dealerHandRef,
-    userHand,
-    setUserHand,
-    userHandRef,
-    gameInProgress,
-    setGameInProgress,
-    gameInProgressRef,
-    userScore,
-    setUserScore,
-    userScoreRef,
-    dealerScore,
-    setDealerScore,
-    dealerScoreRef,
-    roundCounter,
-    setRoundCounter,
-    roundCounterRef,
-    moneyState,
-    setMoneyState,
-    moneyStateRef,
-    bet,
-    setBet,
-    betRef,
-    roundHistory,
-    setRoundHistory,
-    roundHistoryRef,
-  };
+  const gameState = useContext(AppContext);
 
   useEffect(() => {
     window.onbeforeunload = function (event) {
-      var message = "Your data will be automatically saved.";
+      const message = "Your data will be automatically saved.";
       if (typeof event == "undefined") {
         event = window.event;
       }
@@ -84,36 +21,24 @@ function Deck() {
       }
       return message;
     };
-    if (!gameInProgress && localStorage.gameInProgress) {
-      setDeckId(localStorage.deckId);
-      setGameInProgress(true);
-      setUserHand(JSON.parse(localStorage.userHand));
-      setUserScore(localStorage.userScore);
-      setDealerHand(JSON.parse(localStorage.dealerHand));
-      setRoundHistory(JSON.parse(localStorage.roundHistory));
-      setRoundCounter(parseInt(localStorage.roundCounter));
-      setDealerScore(localStorage.dealerScore);
-      setBet(localStorage.bet);
-      setMoneyState(parseInt(localStorage.moneyState));
-      setRoundHistory(JSON.parse(localStorage.roundHistory));
+    if (!gameState.gameInProgress && localStorage.gameInProgress) {
+      gameState.setDeckId(localStorage.deckId);
+      gameState.setGameInProgress(true);
+      gameState.setUserHand(JSON.parse(localStorage.userHand));
+      gameState.setUserScore(localStorage.userScore);
+      gameState.setDealerHand(JSON.parse(localStorage.dealerHand));
+      gameState.setRoundHistory(JSON.parse(localStorage.roundHistory));
+      gameState.setRoundCounter(parseInt(localStorage.roundCounter));
+      gameState.setDealerScore(localStorage.dealerScore);
+      gameState.setBet(localStorage.bet);
+      gameState.setMoneyState(parseInt(localStorage.moneyState));
+      gameState.setRoundHistory(JSON.parse(localStorage.roundHistory));
     }
-  }, [
-    setGameInProgress,
-    setUserHand,
-    setUserScore,
-    setDealerHand,
-    setRoundHistory,
-    setDealerScore,
-    setBet,
-    setMoneyState,
-    gameInProgress,
-    setRoundCounter,
-    setDeckId,
-  ]);
+  }, [gameState]);
 
   if (
     localStorage.gameInProgress === false ||
-    gameInProgressRef.current === false
+    gameState.gameInProgressRef.current === false
   ) {
     return <Menu />;
   } else {
@@ -122,19 +47,19 @@ function Deck() {
         <div className="gameDeckContainer">
           <div className="firstSectionContainer">
             <div className="moneyContainer">
-              <h1>User money: {moneyState}$</h1>
+              <h1>User money: {gameState.moneyState}$</h1>
             </div>
             <div className="betContainer">
-              <h1>Bet: {bet}$</h1>
+              <h1>Bet: {gameState.bet}$</h1>
             </div>
             <div className="spacer"></div>
             <div className="gameIdContainer">
-              {deckId && <h1>Game id: {deckId}</h1>}
+              {gameState.deckId && <h1>Game id: {gameState.deckId}</h1>}
             </div>
           </div>
           <div className="secondSectionContainer">
             <div className="roundContainer">
-              <h1>Round {roundCounter}</h1>
+              <h1>Round {gameState.roundCounter}</h1>
             </div>
             <div className="dealerScoreContainer">
               {/* Uncoment line bellow if debug app or develop */}
@@ -142,15 +67,17 @@ function Deck() {
             </div>
             <DealerCards />
             <div className="userScoreContainer">
-              <h1>User:{userScore}</h1>
+              <h1>User:{gameState.userScore}</h1>
             </div>
             <UserCards />
             <div className="buttonsContainer">
-              <button onClick={() => cardActions.hitAction(state)}>HIT</button>
-              <button onClick={() => cardActions.standAction(state)}>
+              <button onClick={() => cardActions.hitAction(gameState)}>
+                HIT
+              </button>
+              <button onClick={() => cardActions.standAction(gameState)}>
                 STAND
               </button>
-              <button onClick={() => cardActions.doubleAction(state)}>
+              <button onClick={() => cardActions.doubleAction(gameState)}>
                 DOUBLE
               </button>
             </div>
