@@ -6,7 +6,8 @@ import cardActions from "../actions/cardsActions";
 import DealerCards from "./DealerCards";
 import UserCards from "./UserCards";
 import RoundHistory from "./RoundHistory";
-import Modal from "./Modal";
+import BetModal from "./BetModal";
+import EndOfRoundModal from "./EndOfRoundModal";
 function Deck() {
   const gameState = useContext(AppContext);
 
@@ -45,7 +46,8 @@ function Deck() {
     return (
       <>
         {/* {gameState.showModal === true ? <Modal /> : <></>} */}
-        <Modal />
+        <BetModal />
+        <EndOfRoundModal />
 
         <div className=" container-fluid vh-100 d-flex flex-row gameDeckContainer">
           <div className="w-25 h-100 flex-column">

@@ -1,20 +1,21 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../AppContext";
 import { useForm } from "react-hook-form";
-const Modal = () => {
+
+const BetModal = () => {
   const [showError, setShowError] = useState(false);
   const gameState = useContext(AppContext);
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     if (gameState.moneyState < data) {
       setShowError(true);
     } else {
-      gameState.setShowModal(false);
+      gameState.setBet(data.bet);
+      gameState.setShowBetModal(false);
       setShowError(false);
     }
   };
-  console.log(errors);
-  if (gameState.showModal === true) {
+  if (gameState.showBetModal === true) {
     return (
       <div className="modal custom-bet-modal" tabIndex="-1" role="dialog">
         <div className="modal-dialog" role="document">
@@ -60,4 +61,4 @@ const Modal = () => {
   }
 };
 
-export default Modal;
+export default BetModal;

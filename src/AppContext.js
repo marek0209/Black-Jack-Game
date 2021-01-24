@@ -16,7 +16,15 @@ export const AppProvider = (props) => {
   const [moneyState, setMoneyState, moneyStateRef] = useStateRef(1000);
   const [bet, setBet, betRef] = useStateRef(0);
   const [roundHistory, setRoundHistory, roundHistoryRef] = useStateRef([]);
-  const [showModal, setShowModal, showModalRef] = useStateRef(false);
+  const [showBetModal, setShowBetModal, showBetModalRef] = useStateRef(false);
+  const [
+    showEndOfRoundModal,
+    setShowEndOfRoundModal,
+    showEndOfRoundModalRef,
+  ] = useStateRef(false);
+  const [gameIsEnd, setGameIsEnd, gameIsEndRef] = useStateRef(false);
+  const [roundWinner, setRoundWinner, roundWinnerRef] = useStateRef(undefined);
+  const [userName, setUserName, userNameRef] = useStateRef(undefined);
   const gmaeState = {
     deckId,
     setDeckId,
@@ -48,9 +56,21 @@ export const AppProvider = (props) => {
     roundHistory,
     setRoundHistory,
     roundHistoryRef,
-    showModal,
-    setShowModal,
-    showModalRef,
+    showBetModal,
+    setShowBetModal,
+    showBetModalRef,
+    showEndOfRoundModal,
+    setShowEndOfRoundModal,
+    showEndOfRoundModalRef,
+    gameIsEnd,
+    setGameIsEnd,
+    gameIsEndRef,
+    roundWinner,
+    setRoundWinner,
+    roundWinnerRef,
+    userName,
+    setUserName,
+    userNameRef,
   };
   return (
     <AppContext.Provider value={gmaeState}>
