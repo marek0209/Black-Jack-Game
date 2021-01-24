@@ -17,23 +17,41 @@ const Menu = () => {
   };
 
   return (
-    <div className="menuContainer">
-      <h1>Black jack game</h1>
-      <h2>Click button to start game:</h2>
-      <button onClick={startGame}>START</button>
-      <h2>Ranking</h2>
-      <ul className="rank_list">
+    <div className="vh-100 container fluid d-flex flex-column">
+      <h1 className="text-center my-4">Black jack game</h1>
+      <h3 className="text-center mt-4">Click button to start game:</h3>
+      <button
+        className="btn btn-secondary align-self-center my-4"
+        onClick={startGame}
+      >
+        START
+      </button>
+      <h2 className="text-center">Ranking</h2>
+      <ul className="list-group">
         {localStorage.rank &&
           Array.from(JSON.parse(localStorage.rank)).map((rankRecord) => {
             return (
-              <li className="rank_record" key={rankRecord.name}>
-                {rankRecord.name} -- {rankRecord.score}
+              <li
+                className="list-group-item custom-list-item"
+                key={rankRecord.name}
+              >
+                <h5>
+                  {" "}
+                  {rankRecord.name} -- {rankRecord.score}
+                </h5>
               </li>
             );
           })}
       </ul>
-      <h3>If you want to reset the ranking click button bellow and click f5</h3>
-      <button onClick={logic.resetRanking}>RESET</button>
+      <h3 className="text-center my-2">
+        If you want to reset the ranking click button bellow and click f5
+      </h3>
+      <button
+        className="btn btn-secondary align-self-center my-4"
+        onClick={logic.resetRanking}
+      >
+        RESET
+      </button>
     </div>
   );
 };

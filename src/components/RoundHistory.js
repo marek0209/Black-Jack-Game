@@ -4,12 +4,15 @@ const RoundHistory = () => {
   const gameState = useContext(AppContext);
 
   return (
-    <div className="roundHistoryContainer">
-      <h1>Round history</h1>
-      <ul className="roundHistory_list">
+    <div className="w-100 h-100 d-flex flex-column pt-4">
+      <h2 className="text-center">Round history</h2>
+      <ul className="list-group">
         {Array.from(gameState.roundHistory).map((history) => {
           return (
-            <li key={history.round}>
+            <li
+              className="group-list-item custom-list-item"
+              key={history.round}
+            >
               round {history.round} -- {history.winner}
             </li>
           );

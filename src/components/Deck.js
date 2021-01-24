@@ -44,45 +44,56 @@ function Deck() {
   } else {
     return (
       <>
-        <div className="gameDeckContainer">
-          <div className="firstSectionContainer">
-            <div className="moneyContainer">
-              <h1>User money: {gameState.moneyState}$</h1>
+        <div className=" container-fluid vh-100 d-flex flex-row gameDeckContainer">
+          <div className="w-25 h-100 flex-column">
+            <div className="w-100 h-25 d-flex flex-column align-items-center pt-4">
+              <h2 className="text-center">
+                User money: {gameState.moneyState}$
+              </h2>
             </div>
-            <div className="betContainer">
-              <h1>Bet: {gameState.bet}$</h1>
+            <div className="w-100 h-25 d-flex flex-column align-items-center justify-content-center">
+              <h2 className="text-center">Bet: {gameState.bet}$</h2>
             </div>
-            <div className="spacer"></div>
-            <div className="gameIdContainer">
-              {gameState.deckId && <h1>Game id: {gameState.deckId}</h1>}
+            <div className="w-100 h-25"></div>
+            <div className="w-100 h-25 d-flex flex-column align-items-center justify-content-end">
+              {gameState.deckId && <h3>Game id: {gameState.deckId}</h3>}
             </div>
           </div>
-          <div className="secondSectionContainer">
-            <div className="roundContainer">
-              <h1>Round {gameState.roundCounter}</h1>
+          <div className="w-50 h-100 flex-column">
+            <div className="my-4 d-flex flex-column justify-content-center align-items-center">
+              <h2>Round {gameState.roundCounter}</h2>
             </div>
-            <div className="dealerScoreContainer">
+            <div className="dealerScoreContainer flex-column">
               {/* Uncoment line bellow if debug app or develop */}
-              {/* <h1>Dealer:{dealerScore}</h1> */}
+              {/* <h2>Dealer:{dealerScore}</h2> */}
             </div>
             <DealerCards />
-            <div className="userScoreContainer">
-              <h1>User:{gameState.userScore}</h1>
+            <div className="w-100 my-4 d-flex algin-items-center justify-content-center">
+              <h2>User:{gameState.userScore}</h2>
             </div>
             <UserCards />
-            <div className="buttonsContainer">
-              <button onClick={() => cardActions.hitAction(gameState)}>
+            <div className="w-100 my-4 d-flex flex-row align-items-end justify-content-center">
+              <button
+                className="btn btn-secondary"
+                onClick={() => cardActions.hitAction(gameState)}
+              >
                 HIT
               </button>
-              <button onClick={() => cardActions.standAction(gameState)}>
+              <button
+                className="btn btn-secondary ml-2"
+                onClick={() => cardActions.standAction(gameState)}
+              >
                 STAND
               </button>
-              <button onClick={() => cardActions.doubleAction(gameState)}>
+              <button
+                className="btn btn-secondary ml-2"
+                onClick={() => cardActions.doubleAction(gameState)}
+              >
                 DOUBLE
               </button>
             </div>
           </div>
-          <div className="thirdSectionContainer">
+          <div className="w-25 h-100 flex-column">
             <RoundHistory />
           </div>
         </div>
