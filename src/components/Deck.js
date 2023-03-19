@@ -49,7 +49,7 @@ function Deck() {
         <BetModal />
         <EndOfRoundModal />
 
-        <div className=" container-fluid vh-100 d-flex flex-row gameDeckContainer">
+        <div className=" container-fluid vh-100 d-flex flex-row deck">
           <div className="w-25 h-100 flex-column">
             <div className="w-100 h-25 d-flex flex-column align-items-center pt-4">
               <h2 className="text-center">

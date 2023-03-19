@@ -35,11 +35,11 @@ const logic = {
     localStorage.removeItem("rank");
   },
   endOfGame: (state) => {
-    let nick = state.userNameRef.current;
+    const nick = state.userNameRef.current;
     console.log(nick);
 
     //Saving  rank
-    let newRank = { score: state.moneyStateRef.current, name: nick };
+    const newRank = { score: state.moneyStateRef.current, name: nick };
     let oldRank = undefined;
     let tempRank = undefined;
     function compare(a, b) {

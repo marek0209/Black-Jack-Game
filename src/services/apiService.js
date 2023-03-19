@@ -3,7 +3,7 @@ const apiService = {
   drawCard: (id, count) => {
     if (count) {
       try {
-        let response = axios.get(
+        const response = axios.get(
           `https://deckofcardsapi.com/api/deck/${id}/draw/?count=${count}`
         );
         return response;
